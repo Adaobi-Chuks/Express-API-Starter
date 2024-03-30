@@ -2,12 +2,14 @@ import CONSTANTS from "../configs/constants.config";
 import IUser from "../interfaces/user.interface";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import UserRepository from "../repositories/user.repository";
+import BaseRepository from "../repositories/base.repository";
+import User from "../models/user.model";
 const {
     create,
     findOne,
+    findById,
     validateId
-} = new UserRepository();
+} = new BaseRepository(User);
 const {
     INVALID_USER,
     DUPLICATE_EMAIL,
@@ -42,7 +44,7 @@ export default class UserService {
     }
 
     async findById(id: string) {
-        const user = await findOne({_id: id})
+        const user = await findById(id)
         if (!user) {
             throw new Error(INVALID_ID);
         } 
