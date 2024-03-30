@@ -15,6 +15,10 @@ export default class BaseRepository<T extends Document> {
         return await this.model.findOne(query, projection, options);
     }
 
+    async find(query: {} = {}, projection?: {}, options?: QueryOptions) {
+        return await this.model.find(query, projection, options);
+    }
+
     async findById(id: string) {
         return await this.model.findById(id);
     }

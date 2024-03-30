@@ -8,15 +8,18 @@ const {
     create,
     findOne,
     findById,
+    find,
     validateId
 } = new BaseRepository(User);
 const {
     INVALID_USER,
     DUPLICATE_EMAIL,
-    DUPLICATE_USERNAME,
-    INVALID_ID,
-    NOT_ID
+    DUPLICATE_USERNAME
 } = CONSTANTS.MESSAGES.USER;
+const {
+    NOT_ID,
+    INVALID_ID
+} = CONSTANTS.MESSAGES;
 
 export default class UserService {
     async create(user: IUser) {
@@ -49,6 +52,10 @@ export default class UserService {
             throw new Error(INVALID_ID);
         } 
         return user;
+    }
+    
+    async findAll() {
+        return await find();
     }
     
     async validateId(id: string) {

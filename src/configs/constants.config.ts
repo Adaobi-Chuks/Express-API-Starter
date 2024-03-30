@@ -9,22 +9,22 @@ export default {
     MESSAGES : {
         DATABASE: {
             CONNECTED: "Connection to database has been established successfully",
-            ERROR: "Unable to connect to database:"
+            ERROR: "Unable to connect to database."
         },
         AUTH: {
-            TOKEN_ERROR: 'Access Denied: Token not provided',
-            INVALID_TOKEN: 'Access Denied: Invalid token'
+            TOKEN_ERROR: "Access Denied: Token not provided.",
+            INVALID_TOKEN: "Access Denied: Invalid token."
         },
         USER: {
             CREATED: "User created successfully.",
             LOGGEDIN: "User logged in successfully.",
             DUPLICATE_EMAIL: "Email already exist.",
             DUPLICATE_USERNAME: "Username already exist.",
-            INVALID_ID: "Id doesn't exists.",
-            NOT_ID: "Not a valid object Id.",
-            UNEXPECTED_ERROR: "An unexpected error occured.",
             FETCHED: "User fetched successfully.",
             INVALID_USER: "Invalid credentials."
-        }
+        },
+        INVALID_ID: "Id doesn't exists.",
+        NOT_ID: "Not a valid object Id.",
+        UNEXPECTED_ERROR: "An unexpected error occured."
     }
 }

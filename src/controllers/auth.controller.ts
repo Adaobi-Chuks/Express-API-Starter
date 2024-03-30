@@ -15,9 +15,11 @@ const {
     LOGGEDIN,
     DUPLICATE_EMAIL,
     DUPLICATE_USERNAME,
-    INVALID_USER,
-    UNEXPECTED_ERROR
+    INVALID_USER
 } = CONSTANTS.MESSAGES.USER;
+const {
+    UNEXPECTED_ERROR
+} = CONSTANTS.MESSAGES;
 
 
 export default class UserController {

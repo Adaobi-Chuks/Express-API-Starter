@@ -7,11 +7,13 @@ const {
     validateId
 } = new UserService();
 const {
-    INVALID_ID,
-    NOT_ID,
-    UNEXPECTED_ERROR,
     FETCHED
 } = CONSTANTS.MESSAGES.USER;
+const {
+    INVALID_ID,
+    NOT_ID,
+    UNEXPECTED_ERROR
+} = CONSTANTS.MESSAGES;
 
 export default class UserController {
     async getUser(req: Request, res: Response) {

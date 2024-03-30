@@ -14,7 +14,7 @@ const {
 const {
     INVALID_ID,
     UNEXPECTED_ERROR
-} = CONSTANTS.MESSAGES.USER;
+} = CONSTANTS.MESSAGES;
 
 
 // check jwt exists & is valid
