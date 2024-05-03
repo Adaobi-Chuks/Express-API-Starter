@@ -145,7 +145,7 @@ export default class UserService {
                     expiresIn: MAXAGE,
                 }
             );
-    
+
         } catch (error: any) {
 
             throw new HttpException(INTERNAL_SERVER_ERROR, error.message);

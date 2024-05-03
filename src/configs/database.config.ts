@@ -11,5 +11,5 @@ export default function connectToMongo() {
     .catch((err) => {
       logger.error(MESSAGES.DATABASE.ERROR, err);
     }
-  );
+    );
 }

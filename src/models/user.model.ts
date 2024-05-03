@@ -22,8 +22,8 @@ const userSchema = new Schema<IUser>({
         required: true
     }
 }, {
-  strict: true,
-  timestamps: true
+    strict: true,
+    timestamps: true
 });
 
 userSchema.pre("save", async function (next) {
