@@ -4,11 +4,11 @@ export default class Response {
 
   private code: number;
   private success: boolean;
-  private message: string
+  private message: string | string[];
   private data: any;
   res: ExpressResponse<any, Record<string, any>>;
 
-  constructor(code: number, success: boolean, message: string, res: ExpressResponse, data?: any) {
+  constructor(code: number, success: boolean, message: string | string[], res: ExpressResponse, data?: any) {
     this.code = code;
     this.success = success;
     this.message = message;
