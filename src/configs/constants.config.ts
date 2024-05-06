@@ -24,5 +24,5 @@ export const MESSAGES = {
     },
     INVALID_ID: "Id doesn't exists.",
     NOT_ID: "Not a valid object Id.",
-    UNEXPECTED_ERROR: "An unexpected error occured."
+    UNEXPECTED_ERROR: "An unexpected error occured"
 }
