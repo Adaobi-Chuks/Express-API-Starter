@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import UserService from "../services/user.service";
 import AuthRequest from "../interfaces/auth.interface";
-import CustomResponse from "../utils/response.util";
+import CustomResponse from "../utils/helpers/response.util";
 import { JWT_SECRET, MESSAGES } from "../configs/constants.config";
 import { CONFLICT, INTERNAL_SERVER_ERROR } from "../utils/statusCodes.util";
 import { TWO, ZERO } from "../utils/constants.util";

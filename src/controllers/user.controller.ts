@@ -1,6 +1,6 @@
 import UserService from "../services/user.service";
 import { Request, Response } from "express";
-import CustomResponse from "../utils/response.util";
+import CustomResponse from "../utils/helpers/response.util";
 import { MESSAGES } from "../configs/constants.config";
 import { CONFLICT, INTERNAL_SERVER_ERROR, OK } from "../utils/statusCodes.util";
 const {

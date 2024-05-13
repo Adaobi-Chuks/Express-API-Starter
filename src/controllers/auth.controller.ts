@@ -1,6 +1,6 @@
 import UserService from "../services/user.service";
 import { Request, Response } from "express";
-import CustomResponse from "../utils/response.util";
+import CustomResponse from "../utils/helpers/response.util";
 import { MAXAGE, MESSAGES } from "../configs/constants.config";
 import { ADDED, CONFLICT, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from "../utils/statusCodes.util";
 import { THOUSAND } from "../utils/constants.util";
