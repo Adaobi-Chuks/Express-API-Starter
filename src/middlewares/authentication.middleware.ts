@@ -4,6 +4,7 @@ import UserService from "../services/user.service";
 import AuthRequest from "../interfaces/auth.interface";
 import CustomResponse from "../utils/response.util";
 import { JWT_SECRET, MESSAGES } from "../configs/constants.config";
+import { CONFLICT, INTERNAL_SERVER_ERROR } from "../utils/statusCodes.util";
 const {
     findById
 } = new UserService();
@@ -44,9 +45,9 @@ export default function authenticate(req: Request, res: Response, next: NextFunc
     } catch(error) {
         if(error instanceof Error) {
             if (error.message === INVALID_ID) {
-                return new CustomResponse(409, false, INVALID_ID, res);
+                return new CustomResponse(CONFLICT, false, INVALID_ID, res);
             }
         }
-        return new CustomResponse(500, false, `${UNEXPECTED_ERROR}\n Error: ${error}`, res);
+        return new CustomResponse(INTERNAL_SERVER_ERROR, false, `${UNEXPECTED_ERROR}\n Error: ${error}`, res);
     }
 }

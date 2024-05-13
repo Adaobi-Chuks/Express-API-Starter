@@ -1,5 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import Joi from "joi";
+import { FORBIDDEN } from "../utils/statusCodes.util";
 
 function validate(schema: Joi.ObjectSchema<any>): RequestHandler {
     return function(req: Request, res: Response, next: NextFunction) {
@@ -11,7 +12,7 @@ function validate(schema: Joi.ObjectSchema<any>): RequestHandler {
         error.details.forEach(detail => {
             errorMessage.push(detail.message);
         });
-        return res.status(403)
+        return res.status(FORBIDDEN)
             .send({
                 message: errorMessage,
                 success: false

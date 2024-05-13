@@ -2,6 +2,7 @@ import UserService from "../services/user.service";
 import { Request, Response } from "express";
 import CustomResponse from "../utils/response.util";
 import { MAXAGE, MESSAGES } from "../configs/constants.config";
+import { ADDED, CONFLICT, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from "../utils/statusCodes.util";
 const {
     create,
     validateEmail,
@@ -35,16 +36,16 @@ export default class UserController {
                 httpOnly: true,
                 maxAge: MAXAGE * 1000
             });
-            return new CustomResponse(201, true, CREATED, res, { _id, email, token });
+            return new CustomResponse(ADDED, true, CREATED, res, { _id, email, token });
         } catch(error) {
             if (error instanceof Error) {
                 if (error.message === DUPLICATE_EMAIL) {
-                    return new CustomResponse(409, true, DUPLICATE_EMAIL, res);
+                    return new CustomResponse(CONFLICT, true, DUPLICATE_EMAIL, res);
                 } else if (error.message === DUPLICATE_USERNAME) {
-                    return new CustomResponse(409, true, DUPLICATE_USERNAME, res);
+                    return new CustomResponse(CONFLICT, true, DUPLICATE_USERNAME, res);
                 }
             }
-            return new CustomResponse(500, false, `${UNEXPECTED_ERROR}\n Error: ${error}`, res);
+            return new CustomResponse(INTERNAL_SERVER_ERROR, false, `${UNEXPECTED_ERROR}\n Error: ${error}`, res);
         }
     }
 
@@ -59,16 +60,16 @@ export default class UserController {
                 httpOnly: true,
                 maxAge: MAXAGE * 1000
             });
-            return new CustomResponse(200, true, LOGGEDIN, res, {id, email, token});
+            return new CustomResponse(OK, true, LOGGEDIN, res, {id, email, token});
         } catch(error) {
             if (error instanceof Error) {
                 if (error.message === DUPLICATE_USERNAME) {
-                    return new CustomResponse(409, true, DUPLICATE_USERNAME, res);
+                    return new CustomResponse(CONFLICT, true, DUPLICATE_USERNAME, res);
                 } else if (error.message === INVALID_USER) {
-                    return new CustomResponse(404, true, INVALID_USER, res);
+                    return new CustomResponse(NOT_FOUND, true, INVALID_USER, res);
                 }
             }
-            return new CustomResponse(500, false, `${UNEXPECTED_ERROR}\n Error: ${error}`, res);
+            return new CustomResponse(INTERNAL_SERVER_ERROR, false, `${UNEXPECTED_ERROR}\n Error: ${error}`, res);
         }
     }
 }

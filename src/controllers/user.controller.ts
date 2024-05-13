@@ -1,19 +1,20 @@
 import UserService from "../services/user.service";
-import CONSTANTS from "../configs/constants.config";
 import { Request, Response } from "express";
 import CustomResponse from "../utils/response.util";
+import { MESSAGES } from "../configs/constants.config";
+import { CONFLICT, INTERNAL_SERVER_ERROR, OK } from "../utils/statusCodes.util";
 const {
     findById,
     validateId
 } = new UserService();
 const {
     FETCHED
-} = CONSTANTS.MESSAGES.USER;
+} = MESSAGES.USER;
 const {
     INVALID_ID,
     NOT_ID,
     UNEXPECTED_ERROR
-} = CONSTANTS.MESSAGES;
+} = MESSAGES;
 
 export default class UserController {
     async getUser(req: Request, res: Response) {
@@ -22,16 +23,16 @@ export default class UserController {
             await validateId(_id);
             const user = await findById(_id);
             const { id, username} = user
-            return new CustomResponse(200, true, FETCHED, res , { id, username });
+            return new CustomResponse(OK, true, FETCHED, res , { id, username });
         } catch(error) {
             if(error instanceof Error) {
                 if (error.message === NOT_ID) {
-                    return new CustomResponse(409, false, NOT_ID, res);
+                    return new CustomResponse(CONFLICT, false, NOT_ID, res);
                 } else if (error.message === INVALID_ID) {
-                    return new CustomResponse(409, false, INVALID_ID, res);
+                    return new CustomResponse(CONFLICT, false, INVALID_ID, res);
                 }
             } else {
-                return new CustomResponse(500, false, `${UNEXPECTED_ERROR}\n Error: ${error}`, res);
+                return new CustomResponse(INTERNAL_SERVER_ERROR, false, `${UNEXPECTED_ERROR}\n Error: ${error}`, res);
             }
         }
     }
