@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
-import CONSTANTS from "../configs/constants.config";
 import bcrypt from "bcrypt";
 import IUser from "../interfaces/user.interface";
+import { DATABASES } from "../configs/constants.config";
 
 const userSchema = new Schema<IUser>({
     email: {
@@ -46,5 +46,5 @@ userSchema.pre("findOneAndUpdate", async function (next) {
     next();
 });
 
-const User = model<IUser>(CONSTANTS.DATABASES.USER, userSchema);
+const User = model<IUser>(DATABASES.USER, userSchema);
 export default User;

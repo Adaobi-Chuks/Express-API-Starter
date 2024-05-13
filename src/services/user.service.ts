@@ -1,82 +1,154 @@
-import CONSTANTS from "../configs/constants.config";
+import { JWT_SECRET, MAXAGE, MESSAGES } from "../configs/constants.config";
 import IUser from "../interfaces/user.interface";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import BaseRepository from "../repositories/base.repository";
 import User from "../models/user.model";
-const {
-    create,
-    findOne,
-    findById,
-    find,
-    validateId
-} = new BaseRepository(User);
-const {
-    INVALID_USER,
-    DUPLICATE_EMAIL,
-    DUPLICATE_USERNAME
-} = CONSTANTS.MESSAGES.USER;
-const {
-    NOT_ID,
-    INVALID_ID
-} = CONSTANTS.MESSAGES;
+import HttpException from "../utils/helpers/httpException.util";
+import { CONFLICT, FORBIDDEN, INTERNAL_SERVER_ERROR, NOT_FOUND, UNAUTHORIZED } from "../utils/statusCodes.util";
+const { create, findOne, findById, find, validateId } = new BaseRepository(
+    User
+);
+const { INVALID_USER, DUPLICATE_EMAIL, DUPLICATE_USERNAME } = MESSAGES.USER;
+const { NOT_ID, INVALID_ID } = MESSAGES;
 
 export default class UserService {
+
     async create(user: IUser) {
-        return await create(user);
+        try {
+
+            return await create(user);
+
+        } catch (error: any) {
+
+            throw new HttpException(INTERNAL_SERVER_ERROR, error.message);
+        }
     }
 
     async validateEmail(email: string) {
-        if (await findOne({email})) {
-            throw new Error(DUPLICATE_EMAIL);
+        try {
+
+            if (await findOne({ email })) throw new HttpException(CONFLICT, DUPLICATE_EMAIL);
+
+            return true;
+
+        } catch (error: any) {
+
+            if (error.status === CONFLICT) throw error;
+
+            throw new HttpException(INTERNAL_SERVER_ERROR, error.message);
         }
     }
 
     async validateUsername(username: string) {
-        if (await findOne({username})) {
-            throw new Error(DUPLICATE_USERNAME);
+        try {
+
+            if (await findOne({ username })) throw new HttpException(CONFLICT, DUPLICATE_USERNAME);
+
+            return true;
+
+        } catch (error: any) {
+
+            if (error.status === CONFLICT) throw error;
+
+            throw new HttpException(INTERNAL_SERVER_ERROR, error.message);
         }
     }
 
     async findByUsername(username: string) {
-        const user = await findOne({username});
-        if (!user) {
-            throw new Error(INVALID_USER);
+        try {
+
+            const user = await findOne({ username });
+
+            if (!user) throw new HttpException(NOT_FOUND, INVALID_USER);
+
+            return user;
+
+        } catch (error: any) {
+
+            if (error.status === NOT_FOUND) throw error;
+
+            throw new HttpException(INTERNAL_SERVER_ERROR, error.message);
         }
-        return user;
     }
 
     async findById(id: string) {
-        const user = await findById(id)
-        if (!user) {
-            throw new Error(INVALID_ID);
-        } 
-        return user;
-    }
-    
-    async findAll() {
-        return await find();
-    }
-    
-    async validateId(id: string) {
-        if (!await validateId(id)) {
-            throw new Error(NOT_ID);
-        }
-    }
-    
-    async validatePassword(password: string, user: IUser) {
-        const validPassword = await bcrypt.compare(password, user.password);
-        if (!validPassword) {
-            throw new Error(INVALID_USER);
+        try {
+
+            const user = await findById(id);
+
+            if (!user) throw new HttpException(NOT_FOUND, INVALID_ID);
+
+            return user;
+
+        } catch (error: any) {
+
+            if (error.status === NOT_FOUND) throw error;
+
+            throw new HttpException(INTERNAL_SERVER_ERROR, error.message);
         }
     }
 
-    generateAuthToken (user: IUser) {
-        return jwt.sign({
-            id: user._id,
-            email: user.email
-        }, CONSTANTS.JWT_SECRET, {
-            expiresIn: CONSTANTS.MAXAGE
-        });
+    async findAll() {
+        try {
+
+            return await find();
+
+        } catch (error: any) {
+
+            throw new HttpException(INTERNAL_SERVER_ERROR, error.message);
+        }
+    }
+
+    async validateId(id: string) {
+        try {
+
+            if (!(await validateId(id))) throw new HttpException(FORBIDDEN, NOT_ID);
+
+            return true;
+
+        } catch (error: any) {
+
+            if (error.status === FORBIDDEN) throw error;
+
+            throw new HttpException(INTERNAL_SERVER_ERROR, error.message);
+        }
+    }
+
+    async validatePassword(password: string, user: IUser) {
+        try {
+
+            const validPassword = await bcrypt.compare(password, user.password);
+
+            if (!validPassword) throw new HttpException(UNAUTHORIZED, INVALID_USER);
+
+            return true;
+
+        } catch (error: any) {
+
+            if (error.status === UNAUTHORIZED) throw error;
+
+            throw new HttpException(INTERNAL_SERVER_ERROR, error.message);
+        }
+    }
+
+    generateAuthToken(user: IUser) {
+        try {
+
+            return jwt.sign(
+                {
+                    id: user._id,
+                    email: user.email,
+                },
+                JWT_SECRET,
+                {
+                    expiresIn: MAXAGE,
+                }
+            );
+    
+        } catch (error: any) {
+
+            throw new HttpException(INTERNAL_SERVER_ERROR, error.message);
+        }
     }
 }
