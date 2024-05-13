@@ -1,4 +1,4 @@
-import CONSTANTS from "../configs/constants.config";
+import { JWT_SECRET, MAXAGE, MESSAGES } from "../configs/constants.config";
 import IUser from "../interfaces/user.interface";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -15,11 +15,11 @@ const {
     INVALID_USER,
     DUPLICATE_EMAIL,
     DUPLICATE_USERNAME
-} = CONSTANTS.MESSAGES.USER;
+} = MESSAGES.USER;
 const {
     NOT_ID,
     INVALID_ID
-} = CONSTANTS.MESSAGES;
+} = MESSAGES;
 
 export default class UserService {
     async create(user: IUser) {
@@ -75,8 +75,8 @@ export default class UserService {
         return jwt.sign({
             id: user._id,
             email: user.email
-        }, CONSTANTS.JWT_SECRET, {
-            expiresIn: CONSTANTS.MAXAGE
+        }, JWT_SECRET, {
+            expiresIn: MAXAGE
         });
     }
 }

@@ -1,20 +1,20 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import CONSTANTS from "../configs/constants.config";
 import UserService from "../services/user.service";
 import AuthRequest from "../interfaces/auth.interface";
 import CustomResponse from "../utils/response.util";
+import { JWT_SECRET, MESSAGES } from "../configs/constants.config";
 const {
     findById
 } = new UserService();
 const {
     TOKEN_ERROR,
     INVALID_TOKEN
-} = CONSTANTS.MESSAGES.AUTH;
+} = MESSAGES.AUTH;
 const {
     INVALID_ID,
     UNEXPECTED_ERROR
-} = CONSTANTS.MESSAGES;
+} = MESSAGES;
 
 
 // check jwt exists & is valid
@@ -31,7 +31,7 @@ export default function authenticate(req: Request, res: Response, next: NextFunc
         }
 
         const token = tokenParts[1];
-        jwt.verify(token, CONSTANTS.JWT_SECRET, async (err: any, decoded: any) => {
+        jwt.verify(token, JWT_SECRET, async (err: any, decoded: any) => {
             if (err) {
                 throw new Error(INVALID_TOKEN);
             } else {

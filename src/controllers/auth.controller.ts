@@ -1,7 +1,7 @@
 import UserService from "../services/user.service";
-import CONSTANTS from "../configs/constants.config";
 import { Request, Response } from "express";
 import CustomResponse from "../utils/response.util";
+import { MAXAGE, MESSAGES } from "../configs/constants.config";
 const {
     create,
     validateEmail,
@@ -16,10 +16,10 @@ const {
     DUPLICATE_EMAIL,
     DUPLICATE_USERNAME,
     INVALID_USER
-} = CONSTANTS.MESSAGES.USER;
+} = MESSAGES.USER;
 const {
     UNEXPECTED_ERROR
-} = CONSTANTS.MESSAGES;
+} = MESSAGES;
 
 
 export default class UserController {
@@ -33,7 +33,7 @@ export default class UserController {
             const {_id, email} = user!
             res.cookie("token", token, {
                 httpOnly: true,
-                maxAge: CONSTANTS.MAXAGE * 1000
+                maxAge: MAXAGE * 1000
             });
             return new CustomResponse(201, true, CREATED, res, { _id, email, token });
         } catch(error) {
@@ -57,7 +57,7 @@ export default class UserController {
             const {id, email} = user!
             res.cookie("token", token, {
                 httpOnly: true,
-                maxAge: CONSTANTS.MAXAGE * 1000
+                maxAge: MAXAGE * 1000
             });
             return new CustomResponse(200, true, LOGGEDIN, res, {id, email, token});
         } catch(error) {

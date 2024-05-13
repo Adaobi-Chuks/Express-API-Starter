@@ -1,13 +1,12 @@
 import app from "./app";
 import logger from "./middlewares/logger.middleware";
-import CONSTANTS from "./configs/constants.config"
+import { PORT } from "./configs/constants.config"
 import connectToMongo from "./configs/database.config"
-const port = CONSTANTS.PORT;
 
 (async () => {
-  logger.info(`Attempting to run server on port ${port}`);
+  logger.info(`Attempting to run server on port ${PORT}`);
   connectToMongo();
-  app.listen(port, () => {
-    logger.info(`Listening on port ${port}`);
+  app.listen(PORT, () => {
+    logger.info(`Listening on port ${PORT}`);
   });
 })();

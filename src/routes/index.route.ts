@@ -1,7 +1,7 @@
 import { Router, Request, Response, Application } from 'express';
-import CONSTANTS from "../configs/constants.config";
 import userRoute from "./user.route";
 import authRoute from "./auth.route";
+import { BASEPATH } from '../configs/constants.config';
 const router: Router = Router();
 
 /**API base route */
@@ -16,6 +16,6 @@ router.use("/auth", authRoute);
 
 export default (app: Application) => {
     app.get("/", (_req: Request, res: Response) => {
-        res.redirect(`${CONSTANTS.BASEPATH}`);
+        res.redirect(`${BASEPATH}`);
     });
 };
