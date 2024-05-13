@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import CustomResponse from "../utils/response.util";
 import { MAXAGE, MESSAGES } from "../configs/constants.config";
 import { ADDED, CONFLICT, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from "../utils/statusCodes.util";
+import { THOUSAND } from "../utils/constants.util";
 const {
     create,
     validateEmail,
@@ -34,7 +35,7 @@ export default class UserController {
             const {_id, email} = user!
             res.cookie("token", token, {
                 httpOnly: true,
-                maxAge: MAXAGE * 1000
+                maxAge: MAXAGE * THOUSAND
             });
             return new CustomResponse(ADDED, true, CREATED, res, { _id, email, token });
         } catch(error) {
@@ -58,7 +59,7 @@ export default class UserController {
             const {id, email} = user!
             res.cookie("token", token, {
                 httpOnly: true,
-                maxAge: MAXAGE * 1000
+                maxAge: MAXAGE * THOUSAND
             });
             return new CustomResponse(OK, true, LOGGEDIN, res, {id, email, token});
         } catch(error) {

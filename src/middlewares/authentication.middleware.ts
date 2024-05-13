@@ -5,6 +5,7 @@ import AuthRequest from "../interfaces/auth.interface";
 import CustomResponse from "../utils/response.util";
 import { JWT_SECRET, MESSAGES } from "../configs/constants.config";
 import { CONFLICT, INTERNAL_SERVER_ERROR } from "../utils/statusCodes.util";
+import { TWO, ZERO } from "../utils/constants.util";
 const {
     findById
 } = new UserService();
@@ -27,7 +28,7 @@ export default function authenticate(req: Request, res: Response, next: NextFunc
         }
 
         const tokenParts = tokenHeader.split(' ');
-        if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer') {
+        if (tokenParts.length !== TWO || tokenParts[ZERO] !== 'Bearer') {
             throw new Error(INVALID_TOKEN);
         }
 
